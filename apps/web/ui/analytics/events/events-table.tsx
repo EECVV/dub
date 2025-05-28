@@ -5,6 +5,7 @@ import useWorkspace from "@/lib/swr/use-workspace";
 import { ClickEvent, LeadEvent, SaleEvent } from "@/lib/types";
 import { CustomerRowItem } from "@/ui/customers/customer-row-item";
 import EmptyState from "@/ui/shared/empty-state";
+import { FilterButtonTableRow } from "@/ui/shared/filter-button-table-row";
 import {
   CopyText,
   LinkLogo,
@@ -38,7 +39,6 @@ import DeviceIcon from "../device-icon";
 import EditColumnsButton from "./edit-columns-button";
 import { EventsContext } from "./events-provider";
 import { EXAMPLE_EVENTS_DATA } from "./example-data";
-import FilterButton from "./filter-button";
 import { RowMenuButton } from "./row-menu-button";
 import { eventColumns, useColumnVisibility } from "./use-column-visibility";
 
@@ -113,7 +113,7 @@ export default function EventsTable({
           id: "saleAmount",
           header: "Amount",
           accessorKey: "sale.amount",
-          size: 120,
+          size: 160,
           cell: ({ getValue }) => (
             <div className="flex items-center gap-2">
               <span>
@@ -553,7 +553,12 @@ export default function EventsTable({
     cellRight: (cell) => {
       const meta = cell.column.columnDef.meta as ColumnMeta | undefined;
       return (
-        meta?.filterParams && <FilterButton set={meta.filterParams(cell)} />
+        meta?.filterParams && (
+          <FilterButtonTableRow
+            set={meta.filterParams(cell)}
+            className="bg-[linear-gradient(to_right,transparent,white_10%)]"
+          />
+        )
       );
     },
     tdClassName: (columnId) => (columnId === "customer" ? "p-0" : ""),
